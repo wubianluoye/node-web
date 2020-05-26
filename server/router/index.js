@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { findAllAt, updateAt, appendAt, deleteAt } = require('../controller/common/index')
+const { findListAt, updateAt, appendAt, deleteAt } = require('../controller/common/index')
 
 router.post('/:index', (req, res) => {
   const table = req.params.index
@@ -31,7 +31,11 @@ router.put('/:index/:id', (req, res) => {
 
 router.get('/:index', (req, res) => {
   const table = req.params.index
-  findAllAt(table).then(r => {
+  const page = req.query.page
+  const query = {...req.query}
+  delete query.page
+
+  findListAt(table, query, page).then(r => {
     res.send({
       code: 200,
       data: r
