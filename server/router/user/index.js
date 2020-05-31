@@ -1,10 +1,10 @@
 const express = require('express')
-const router = express.Router({ mergeParams: true })
+const router = express.Router({ mergeParams: true }) // mergeParams 将参数传递下去
 const { findAt, findListAt, updateAt, appendAt, deleteAt } = require('../../controller/common/index')
 
 router.post('/', (req, res) => {
   const info = req.body
-  appendAt('child', info).then(r => {
+  appendAt('user', info).then(r => {
     res.send('success')
   })
 })
@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
 
-  deleteAt('child', id).then(r => {
+  deleteAt('user', id).then(r => {
     res.send('success')
   })
 })
@@ -21,17 +21,17 @@ router.put('/:id', (req, res) => {
   const id = req.params.id
   const info = req.body
 
-  updateAt('child', id, info).then(r => {
+  updateAt('user', id, info).then(r => {
     res.send('success')
   })
 })
 
-router.get('/list', (req, res) => {
+router.get('/', (req, res) => {
   const page = req.query.page
-  const query = { ...req.query }
+  const query = {...req.query}
   delete query.page
 
-  findListAt('child', query, page).then(r => {
+  findListAt('user', query, {page}).then(r => {
     res.send({
       code: 200,
       data: r
@@ -39,7 +39,7 @@ router.get('/list', (req, res) => {
   })
 })
 
-router.get('/', (req, res) => {
+router.get('/:id', (req, res) => {
   findAt('child', req.query.id).then(r => {
     res.send({
       code: 200,

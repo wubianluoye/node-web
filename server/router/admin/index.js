@@ -1,10 +1,16 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
-const { findAt, findListAt, updateAt, appendAt, deleteAt } = require('../../controller/common/index')
+const {
+  findPswAt,
+  updatePswAt,
+  appendPswAt,
+  deletePswAt,
+  findAllPswAt
+} = require('../../controller/admin/passowrd.js')
 
 router.post('/', (req, res) => {
   const info = req.body
-  appendAt('child', info).then(r => {
+  appendPswAt(info).then(r => {
     res.send('success')
   })
 })
@@ -12,7 +18,7 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
 
-  deleteAt('child', id).then(r => {
+  deletePswAt(id).then(r => {
     res.send('success')
   })
 })
@@ -21,7 +27,7 @@ router.put('/:id', (req, res) => {
   const id = req.params.id
   const info = req.body
 
-  updateAt('child', id, info).then(r => {
+  updatePswAt(id, info).then(r => {
     res.send('success')
   })
 })
@@ -30,8 +36,7 @@ router.get('/list', (req, res) => {
   const page = req.query.page
   const query = { ...req.query }
   delete query.page
-
-  findListAt('child', query, page).then(r => {
+  findAllPswAt(query, page).then(r => {
     res.send({
       code: 200,
       data: r
@@ -39,13 +44,16 @@ router.get('/list', (req, res) => {
   })
 })
 
-router.get('/', (req, res) => {
-  findAt('child', req.query.id).then(r => {
+router.get('/:id', (req, res) => {
+  findPswAt(req.query.id).then(r => {
     res.send({
       code: 200,
       data: r
     })
   })
 })
+
+
+
 
 module.exports = router

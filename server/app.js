@@ -1,19 +1,27 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const cors = require('cors')
-
-const Indexrouter = require('./router/index')
 const app = express()
 
 
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false}))
+const { checkToken, setToken } = require('./middleware/checkJwt')
+const childRouter = require('./router/index')
+const userRouter = require('./router/user')
+const adminRouter = require('./router/admin')
+const loginRouter = require('./router/login')
+
+app.use(cors()) // 跨域
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 
-app.use('/static', express.static(__dirname+'./static'))
-app.use('/', Indexrouter)
+app.use('/api/child', checkToken, childRouter)
+app.use('/api/user', checkToken, userRouter)
+app.use('/api/admin', checkToken, adminRouter)
+app.use('/api/login', setToken, loginRouter)
+
+
+app.use('/static', express.static(__dirname + './static')) // 静态文件夹
 
 
 const port = 3000
-app.listen(port, ()=> {console.log('serve start port:', port)})
+app.listen(port, () => { console.log('serve start port:', port) })
