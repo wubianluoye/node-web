@@ -22,7 +22,7 @@ import http from '@/axios'
 		name: 'AdminDetail',
 		data() {
 			return {
-				id: this.$router.query.id,
+				id: this.$route.query.id,
 				form: {
 					
 				}

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-  	<router-link to="/list/create">
+  	<router-link to="/index/create">
   		<el-button type="primary">添加</el-button>
   	</router-link>
 
@@ -64,7 +64,7 @@ export default {
     },
   	goDetail(row) {
   		this.$router.push({
-  			path: '/list/detail/' + row.id,
+  			path: '/index/detail/' + row.id,
   			params: {
   				id: row.id
   			}

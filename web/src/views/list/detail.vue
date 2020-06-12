@@ -28,11 +28,9 @@
 	
 	export default {
 		name: 'ListDetail',
-		props: {
-			id: [String,Number]
-		},
 		data() {
 			return {
+				id: this.$route.query.id,
 				form: {
 					sex: 0
 				}
@@ -58,7 +56,7 @@
 				http.post('/user', this.form).then(res => {
 					this.$message('添加成功')
 					this.$router.push({
-						path: '/'
+						path: '/index'
 					})
 				})
 			},
@@ -66,7 +64,7 @@
 				http.put('/user/' + this.form.id, this.form).then(res => {
 					this.$message('修改成功')
 					this.$router.push({
-						path: '/'
+						path: '/index'
 					})
 				})
 			}

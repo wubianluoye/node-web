@@ -1,17 +1,19 @@
 <template>
 	<el-container class="ctr">
-  <el-header>
-    header
-    <el-dropdown>
-      <span class="el-dropdown-link">
-        {{$store.state.username}}<i class="el-icon-arrow-down el-icon--right"></i>
-      </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>
-          <el-button type="text" @click="logout">logout</el-button>
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+  <el-header class="heads">
+    <div class="head">
+      <p>header</p>
+    </div>
+    <el-dropdown class="right" trigger="click">
+        <span class="el-dropdown-link">
+          {{$store.state.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>
+            <el-button type="text" @click="logout">logout</el-button>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
   </el-header>
   <el-container>
     <my-aside></my-aside>
@@ -67,5 +69,18 @@ export default {
   .ctr{
     height: 100%;
 
+  }
+  .heads{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .head{
+    flex-grow: 1;
+    flex-shrink:1;
+  }
+  .right{
+    align-self: flex-end;
   }
 </style>

@@ -42,7 +42,7 @@ export default {
             if(res.code === 200) {
               this.$store.commit('SET_USER_NAME', res.username)
               
-              this.$message.success(`hello ${res.username} !`)
+              this.$message.success(`welecome ${res.username} !`)
               localStorage.setItem('token',res.token)
               this.$router.push('/')
             }else{

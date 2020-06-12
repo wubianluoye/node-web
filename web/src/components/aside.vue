@@ -7,13 +7,9 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="/">
+      <el-menu-item v-for="item in sideRouters()" :index="item.path">
         <i class="el-icon-menu"></i>
-        <span slot="title">用户列表</span>
-      </el-menu-item>
-      <el-menu-item index="/admin">
-        <i class="el-icon-menu"></i>
-        <span slot="title">Admin</span>
+        <span slot="title">{{item.meta.title}}</span>
       </el-menu-item>
       
     </el-menu>
@@ -21,8 +17,26 @@
 </template>
 
 <script>
+	import { routes } from '@/router'
 	export default{
-		name: 'MyAside'
+		name: 'MyAside',
+		methods: {
+			sideRouters(){
+				const asideList = []
+				this.flatArr(routes, asideList)
+				return asideList
+			},
+			flatArr(arr, res) {
+				arr.forEach(v => {
+					if(!v.hidden && (v.meta && v.meta.title && !v.meta.isPublic)) {
+						res.push(v)
+					}
+					if(v.children && v.children.length) {
+						this.flatArr(v.children, res)
+					}
+				})
+			}
+		}
 	}
 
 </script>
