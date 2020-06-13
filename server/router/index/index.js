@@ -5,7 +5,7 @@ const { findAt, findListAt, updateAt, appendAt, deleteAt } = require('../../cont
 router.post('/', (req, res) => {
   const info = req.body
   appendAt('child', info).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
@@ -13,7 +13,7 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id
 
   deleteAt('child', id).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
@@ -22,7 +22,7 @@ router.put('/:id', (req, res) => {
   const info = req.body
 
   updateAt('child', id, info).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
@@ -32,19 +32,13 @@ router.get('/list', (req, res) => {
   delete query.page
 
   findListAt('child', query, page).then(r => {
-    res.send({
-      code: 200,
-      data: r
-    })
+    res.send(r)
   })
 })
 
 router.get('/', (req, res) => {
   findAt('child', req.query.id).then(r => {
-    res.send({
-      code: 200,
-      data: r
-    })
+    res.send(r)
   })
 })
 

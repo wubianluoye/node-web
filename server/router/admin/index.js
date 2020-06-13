@@ -11,7 +11,7 @@ const {
 router.post('/', (req, res) => {
   const info = req.body
   appendPswAt(info).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
@@ -19,7 +19,7 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id
 
   deletePswAt(id).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
@@ -28,28 +28,22 @@ router.put('/:id', (req, res) => {
   const info = req.body
 
   updatePswAt(id, info).then(r => {
-    res.send('success')
+    res.send(r)
   })
 })
 
-router.get('/list', (req, res) => {
+router.get('/', (req, res) => {
   const page = req.query.page
   const query = { ...req.query }
   delete query.page
   findAllPswAt(query, page).then(r => {
-    res.send({
-      code: 200,
-      data: r
-    })
+    res.send(r)
   })
 })
 
 router.get('/:id', (req, res) => {
-  findPswAt(req.query.id).then(r => {
-    res.send({
-      code: 200,
-      data: r
-    })
+  findPswAt(req.params.id).then(r => {
+    res.send(r)
   })
 })
 

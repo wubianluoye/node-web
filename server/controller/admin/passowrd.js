@@ -15,11 +15,12 @@ function findAllPswAt(searchInfo = {}, pageInfo = {}) {
       if (err) throw err; // not connected!
       connection.query('SELECT id,username FROM login WHERE ? ORDER BY id LIMIT ?,?', [searchInfo, offset, limit], (error, results) => {
 
-        if (error) throw error
+        // if (error) throw error
         connection.query('SELECT COUNT(*) total FROM login', (terr, res) => {
-          if (terr) throw terr
+          // if (terr) throw terr
           connection.release();
           return resolve({
+            code: error ? 400 : 200,
             page: {
               currpage: page,
               limit,
@@ -39,9 +40,12 @@ function findPswAt(id) {
     pool.getConnection(function (err, connection) {
       if (err) throw err; // not connected!
       connection.query('SELECT id,username FROM login WHERE id=?', id, (error, results) => {
-        if (error) throw error
+        // if (error) throw error
         connection.release();
-        return resolve(results)
+        return resolve({
+          code: error ? 400 : 200,
+          data: results[0] || {}
+        })
       })
     })
   })
@@ -56,8 +60,11 @@ function updatePswAt(id, info) {
       if (err) throw err; // not connected!
       connection.query('UPDATE login SET ? WHERE id=?', [info, id], (error, results, fields) => {
         connection.release();
-        if (error) throw error
-        return resolve(results)
+        // if (error) throw error
+        return resolve({
+          code: error ? 400 : 200,
+          message: error && error.sqlMessage || 'success'
+        })
       })
     })
   })
@@ -72,8 +79,11 @@ function appendPswAt(info) {
       if (err) throw err; // not connected!
       connection.query('INSERT INTO login SET ? ', info, (error, results, fields) => {
         connection.release();
-        if (error) throw error
-        return resolve(results)
+        // if (error) throw error
+        return resolve({
+          code: error ? 400 : 200,
+          message: error && error.sqlMessage || 'success'
+        })
       })
     })
   })
@@ -85,8 +95,11 @@ function deletePswAt(id) {
       if (err) throw err; // not connected!
       connection.query('DELETE FROM login WHERE id=?', id, (error, results, fields) => {
         connection.release();
-        if (error) throw error
-        return resolve(results)
+        // if (error) throw error
+        return resolve({
+          code: error ? 400 : 200,
+          message: error && error.sqlMessage || 'success'
+        })
       })
     })
   })
@@ -100,16 +113,28 @@ function checkPswAt(userInfo) {
       if (err) throw err; // not connected!
       connection.query('SELECT * FROM login WHERE username=?', username, (error, results, fields) => {
         connection.release();
-        if (error) throw error
+        // if (error) throw error
         if (!results.length) {
-          return resolve('用户名不存在')
+          return resolve({
+            code: 400,
+            message: '用户名不存在'
+          })
         }
 
         if (!bcrypt.compareSync(password, results[0].password)) {
-          return resolve('密码错误')
+          return resolve({
+            code: 400,
+            message: '密码错误'
+          })
         }
 
-        return resolve('success')
+        return resolve({
+          code: 200,
+          message: 'success',
+          data: {
+            username
+          }
+        })
       })
     })
   })

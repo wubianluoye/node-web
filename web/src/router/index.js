@@ -60,7 +60,7 @@ export const routes = [
         hidden: true
       },
     ]
-    
+
   }
 ];
 
@@ -69,9 +69,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  if(!to.meta.isPublic && !localStorage.token) {
+  if (!to.meta.isPublic && !localStorage.token) {
     next({ path: '/login' })
-  }else{
+  } else {
     next()
   }
 })
