@@ -4,7 +4,6 @@ const app = express()
 
 
 const { checkToken, setToken } = require('./middleware/checkJwt')
-const childRouter = require('./router/index')
 const userRouter = require('./router/user')
 const adminRouter = require('./router/admin')
 const loginRouter = require('./router/login')
@@ -14,7 +13,6 @@ app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 
-app.use('/api/child', checkToken, childRouter)
 app.use('/api/user', checkToken, userRouter)
 app.use('/api/admin', checkToken, adminRouter)
 app.use('/api/login', setToken, loginRouter)
